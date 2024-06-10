@@ -1,0 +1,65 @@
+esphome:
+  name: rf-blaster
+  friendly_name: RF-blaster
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "alG+rl3yUin92Vonj/pW3B7UbzoQL5yQQDkKhQjahJg="
+
+ota:
+  password: "7c9a56ff708aee58fbfb098be6ca0807"
+
+wifi:
+  ssid: COFE
+  password: 789321456@#
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Rf-Blaster Fallback Hotspot"
+    password: "pmw2SNKfHvcu"
+
+captive_portal:
+remote_transmitter:
+  pin: GPIO 13
+  # RF uses a 100% carrier signal
+  carrier_duty_percent: 100%
+switch:
+  - platform: template
+    name: RF  Button 1
+    turn_on_action:
+      - remote_transmitter.transmit_rc_switch_raw:
+          code: '000000010110001101011000'
+          protocol: 1
+          repeat:
+            times: 4
+            wait_time: 0ms 
+  
+  - platform: template
+    name: RF  Button 2
+    turn_on_action:
+      - remote_transmitter.transmit_rc_switch_raw:
+          code: '000000010110001101010001'
+          protocol: 1
+          repeat:
+            times: 4
+            wait_time: 0ms
+  
+  - platform: template
+    name: RF  Button 3
+    turn_on_action:
+      - remote_transmitter.transmit_rc_switch_raw:
+          code: '000000010110001101010101'
+          protocol: 1
+          repeat:
+            times: 4
+            wait_time: 0ms
+  
